@@ -4,7 +4,8 @@ function g = gridGraph( nrow, ncol )
 % ncol: number of desired columns in the graph
 %
 % g: a structure containing the Adjacency matrix 'adjMat', number of nodes
-% 'nnode', number of rows 'nrow', and number of columns 'ncol'
+% 'nnode', number of rows 'nrow', number of columns 'ncol', and coodinates
+% ofeach node 'coord'
 
 nnode = nrow*ncol;          % Number of nodes in the grid
 adjMat = zeros(nnode);      % Initialize the Adjacency matrix
@@ -36,7 +37,17 @@ for i = 1:nnode
         adjMat(i, [i+1, i-1, i-ncol, i+ncol]) = 1;
     end
     
-    g = struct('adjMat',adjMat,'nnode',nnode,'nrow',nrow,'ncol',ncol);
+    coord = zeros(2*nnode, 1);
+    temp = zeros(2,1);
+    
+    % Fill coordinates for each node
+    for n = 1:nnode
+        temp(1) = ceil(n/ncol);
+        temp(2) = n-(temp(1)-1)*ncol;
+        coord((n-1)*2+1:(n-1)*2+2) = temp;
+    end
+    
+    g = struct('adjMat',adjMat,'nnode',nnode,'nrow',nrow,'ncol',ncol,'coord', coord);
     
 end
 
